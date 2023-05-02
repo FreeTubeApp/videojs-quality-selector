@@ -1,6 +1,6 @@
-'use strict';
+//! @freetube/videojs-quality-selector v1.2.5 ~~ https://github.com/FreeTubeApp/videojs-quality-selector#readme ~~ MIT License
 
-Object.defineProperty(exports, '__esModule', { value: true });
+'use strict';
 
 var videojs = require('video.js');
 
@@ -256,6 +256,9 @@ class QualitySelectorPlugin extends Plugin {
     });
   }
 }
+var index = {
+  QualitySelectorPlugin,
+  CustomEvents
+};
 
-exports.Events = CustomEvents;
-exports.default = QualitySelectorPlugin;
+module.exports = index;

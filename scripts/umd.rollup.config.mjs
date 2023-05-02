@@ -47,7 +47,7 @@ export default {
       presets: [
         ['@babel/preset-env', {
           targets: {
-            chrome: 68
+            chrome: 104
           }
         }]
       ]

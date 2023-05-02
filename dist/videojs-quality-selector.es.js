@@ -1,3 +1,5 @@
+//! @freetube/videojs-quality-selector v1.2.5 ~~ https://github.com/FreeTubeApp/videojs-quality-selector#readme ~~ MIT License
+
 import videojs from 'video.js';
 
 class SafeSeek {
@@ -252,5 +254,9 @@ class QualitySelectorPlugin extends Plugin {
     });
   }
 }
+var index = {
+  QualitySelectorPlugin,
+  CustomEvents
+};
 
-export { CustomEvents as Events, QualitySelectorPlugin as default };
+export { index as default };

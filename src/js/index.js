@@ -70,5 +70,7 @@ class QualitySelectorPlugin extends Plugin {
   }
 }
 
-export default QualitySelectorPlugin
-export {default as Events} from './events.js'
+export default {
+  QualitySelectorPlugin,
+  CustomEvents
+}

@@ -1,8 +1,10 @@
+//! @freetube/videojs-quality-selector v1.2.5 ~~ https://github.com/FreeTubeApp/videojs-quality-selector#readme ~~ MIT License
+
 (function (global, factory) {
-   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('video.js')) :
-   typeof define === 'function' && define.amd ? define(['exports', 'video.js'], factory) :
-   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global["videojs-quality-selector"] = {}, global.videojs));
-})(this, (function (exports, videojs) { 'use strict';
+   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
+   typeof define === 'function' && define.amd ? define(['video.js'], factory) :
+   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global["videojs-quality-selector"] = factory(global.videojs));
+})(this, (function (videojs) { 'use strict';
 
    class SafeSeek {
      constructor(player, seekToTime) {
@@ -256,10 +258,11 @@
        });
      }
    }
+   var index = {
+     QualitySelectorPlugin,
+     CustomEvents
+   };
 
-   exports.Events = CustomEvents;
-   exports.default = QualitySelectorPlugin;
-
-   Object.defineProperty(exports, '__esModule', { value: true });
+   return index;
 
 }));
