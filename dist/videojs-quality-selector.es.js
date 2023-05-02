@@ -254,9 +254,5 @@ class QualitySelectorPlugin extends Plugin {
     });
   }
 }
-var index = {
-  QualitySelectorPlugin,
-  CustomEvents
-};
 
-export { index as default };
+export { QualitySelectorPlugin };

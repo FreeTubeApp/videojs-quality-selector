@@ -5,7 +5,7 @@ import QualityOption from './components/QualityOption.js';
 import QualitySelector from './components/QualitySelector.js';
 const Plugin = videojs.getPlugin('plugin');
 
-class QualitySelectorPlugin extends Plugin {
+export class QualitySelectorPlugin extends Plugin {
   constructor(player, options) {
     videojs.registerComponent('QualitySelector', QualitySelector);
     videojs.registerComponent('QualityOption', QualityOption);
@@ -68,9 +68,4 @@ class QualitySelectorPlugin extends Plugin {
       player.on(CustomEvents.QUALITY_REQUESTED, changeQuality);
    });
   }
-}
-
-export default {
-  QualitySelectorPlugin,
-  CustomEvents
 }
