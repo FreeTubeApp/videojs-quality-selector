@@ -1,4 +1,0 @@
-{
-   "extends": "@silvermine/eslint-config/node",
-   "parser": "babel-eslint"
-}
