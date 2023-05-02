@@ -1,10 +1,17 @@
 import CustomEvents from '../events.js';
 
+/**
+ * Intercept source changes so we can @class SafeSeek
+ * @class SourceInterceptor
+ */
 class SourceInterceptor {
   constructor(player) {
     this.player = player
     this.begin()
   }
+  /**
+   *Start Intercepting the videojs SetSource function
+   */
   begin() {
     this.player.use('*', function(player) {
       return {

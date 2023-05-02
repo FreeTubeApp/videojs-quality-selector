@@ -3,14 +3,20 @@ import CustomEvents from './events.js'
 import videojs from 'video.js';
 import QualityOption from './components/QualityOption.js';
 import QualitySelector from './components/QualitySelector.js';
+import SourceInterceptor from './middleware/SourceInterceptor.js';
 const Plugin = videojs.getPlugin('plugin');
 
+/**
+ * Videojs quality selector plugin
+ * @class QualitySelectorPlugin
+ */
 export class QualitySelectorPlugin extends Plugin {
   constructor(player, options) {
-    videojs.registerComponent('QualitySelector', QualitySelector);
-    videojs.registerComponent('QualityOption', QualityOption);
     const settings = videojs.obj.merge({}, options);
     super(player, settings)
+    videojs.registerComponent('QualitySelector', QualitySelector);
+    videojs.registerComponent('QualityOption', QualityOption);
+    this.intercept = new SourceInterceptor(player)
     const videojs = player || window.videojs
     videojs.hook('setup', function(player) {
       /**

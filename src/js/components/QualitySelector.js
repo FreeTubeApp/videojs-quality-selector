@@ -8,7 +8,7 @@ const MenuButton = videojs.getComponent('MenuButton');
 /**
  * A component for changing video resolutions
  * @class QualitySelector
- * @augments videojs.Button
+ * @augments MenuButton
  */
 class QualitySelector extends MenuButton {
 

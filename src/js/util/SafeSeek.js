@@ -1,3 +1,7 @@
+/**
+ * Determine when a user can safely seek in a video
+ * @class SafeSeek
+ */
 class SafeSeek {
    constructor(player, seekToTime) {
       this._player = player;

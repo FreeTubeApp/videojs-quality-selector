@@ -1,7 +1,7 @@
 module.exports = {
   // https://eslint.org/docs/user-guide/configuring#using-configuration-files-1
   root: true,
-  extends: [ 'eslint:recommended', 'plugin:unicorn/recommended', 'plugin:sonarjs/recommended', 'plugin:jsdoc/recommended', 'plugin:n/recommended', 'plugin:import/recommended', 'plugin:you-dont-need-lodash-underscore/compatible'],
+  extends: [ 'eslint:recommended', 'plugin:unicorn/recommended', 'plugin:sonarjs/recommended', 'plugin:jsdoc/recommended', 'plugin:n/recommended', 'plugin:import/recommended'],
   plugins: ['unicorn'],
   env: {
     browser: true,
@@ -29,6 +29,7 @@ module.exports = {
       'version': '>=16.0.0',
       'ignores': []
   }],
-  'n/no-unpublished-import': 'off'
+  'n/no-unpublished-import': 'off',
+  'jsdoc/require-jsdoc': 'error'
   }
 };

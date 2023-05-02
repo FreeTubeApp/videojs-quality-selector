@@ -1,3 +1,45 @@
 {
-  "plugins": ["plugins/markdown"]
+  "source": {
+    "include": [
+      "src",
+      "package.json",
+      "README.md"
+    ],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "opts": {
+    "encoding": "utf8",
+    "readme": "./README.md",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true,
+    "template": "node_modules/clean-jsdoc-theme",
+    "theme_opts": {
+      "default_theme": "dark",
+      "includeFilesListInHomepage": true,
+      "search": true,
+      "homepageTitle": "Videojs Quality Selector Docs",
+      "displayModuleHeader": true,
+      "menu": [
+        {
+          "title": "Github",
+          "id": "github",
+          "link": "https://github.com/FreeTubeApp/videojs-quality-selector"
+        },
+        {
+          "title": "npm",
+          "id": "npm",
+          "link": "https://www.npmjs.com/package/@freetube/videojs-quality-selector"
+        }
+      ]
+    }
+  },
+  "markdown": {
+    "hardwrap": false,
+    "idInHeadings": true
+  }
 }

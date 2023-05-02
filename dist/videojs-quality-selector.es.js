@@ -1,7 +1,9 @@
-//! @freetube/videojs-quality-selector v1.2.5 ~~ https://github.com/FreeTubeApp/videojs-quality-selector#readme ~~ MIT License
-
 import videojs from 'video.js';
 
+/**
+ * Determine when a user can safely seek in a video
+ * @class SafeSeek
+ */
 class SafeSeek {
   constructor(player, seekToTime) {
     this._player = player;
@@ -73,6 +75,9 @@ class SafeSeek {
   }
 }
 
+/**
+ * Custom events that can be listened to from videojs
+ */
 const CustomEvents = {
   QUALITY_REQUESTED: 'qualityRequested',
   QUALITY_SELECTED: 'qualitySelected',
@@ -118,7 +123,7 @@ const MenuButton = videojs.getComponent('MenuButton');
 /**
  * A component for changing video resolutions
  * @class QualitySelector
- * @augments videojs.Button
+ * @augments MenuButton
  */
 class QualitySelector extends MenuButton {
   /**
@@ -194,13 +199,69 @@ class QualitySelector extends MenuButton {
 }
 videojs.registerComponent('QualitySelector', QualitySelector);
 
+/**
+ * Intercept source changes so we can @class SafeSeek
+ * @class SourceInterceptor
+ */
+class SourceInterceptor {
+  constructor(player) {
+    this.player = player;
+    this.begin();
+  }
+  /**
+   *Start Intercepting the videojs SetSource function
+   */
+  begin() {
+    this.player.use('*', function (player) {
+      return {
+        setSource: function (playerSelectedSource, next) {
+          var sources = player.currentSources(),
+            userSelectedSource,
+            chosenSource;
+          if (player._qualitySelectorSafeSeek) {
+            player._qualitySelectorSafeSeek.onPlayerSourcesChange();
+          }
+          if (JSON.stringify(sources) != JSON.stringify(player._qualitySelectorPreviousSources)) {
+            player.trigger(CustomEvents.PLAYER_SOURCES_CHANGED, sources);
+            player._qualitySelectorPreviousSources = sources;
+          }
+
+          // There are generally two source options, the one that videojs
+          // auto-selects and the one that a "user" of this plugin has
+          // supplied via the `selected` property. `selected` can come from
+          // either the `<source>` tag or the list of sources passed to
+          // videojs using `src()`.
+
+          userSelectedSource = sources.find(function (source) {
+            // Must check for boolean values as well as either the string 'true' or
+            // 'selected'. When sources are set programmatically, the value will be a
+            // boolean, but those coming from a `<source>` tag will be a string.
+            return source.selected === true || source.selected === 'true' || source.selected === 'selected';
+          });
+          chosenSource = userSelectedSource || playerSelectedSource;
+          player.trigger(CustomEvents.QUALITY_SELECTED, chosenSource);
+
+          // Pass along the chosen source
+          next(undefined, chosenSource);
+        }
+      };
+    });
+  }
+}
+
 const Plugin = videojs.getPlugin('plugin');
+
+/**
+ * Videojs quality selector plugin
+ * @class QualitySelectorPlugin
+ */
 class QualitySelectorPlugin extends Plugin {
   constructor(player, options) {
-    videojs.registerComponent('QualitySelector', QualitySelector);
-    videojs.registerComponent('QualityOption', QualityOption);
     const settings = videojs.obj.merge({}, options);
     super(player, settings);
+    videojs.registerComponent('QualitySelector', QualitySelector);
+    videojs.registerComponent('QualityOption', QualityOption);
+    this.intercept = new SourceInterceptor(player);
     const videojs = player || window.videojs;
     videojs.hook('setup', function (player) {
       /**
