@@ -1,0 +1,15 @@
+'PR: waiting for review':
+  - '*'
+  - '.github/**/*'
+  - 'example/**/*'
+  - 'scripts/**/*'
+  - 'src/**/*'
+  - 'test/**/*'
+  - '.editorconfig'
+  - '.gitignore'
+  - '.npmignore'
+  - '.travis.yml'
+
+'PR: dependencies':
+  - 'package-lock.json'
+  - 'package.json'
