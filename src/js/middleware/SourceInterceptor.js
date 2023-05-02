@@ -1,12 +1,13 @@
-var _ = require('underscore'),
-    events = require('../events');
+import CustomEvents from '../events.js';
 
-module.exports = function(videojs) {
-
-   videojs.use('*', function(player) {
-
+class SourceInterceptor {
+  constructor(player) {
+    this.player = player
+    this.begin()
+  }
+  begin() {
+    this.player.use('*', function(player) {
       return {
-
          setSource: function(playerSelectedSource, next) {
             var sources = player.currentSources(),
                 userSelectedSource, chosenSource;
@@ -15,8 +16,8 @@ module.exports = function(videojs) {
                player._qualitySelectorSafeSeek.onPlayerSourcesChange();
             }
 
-            if (!_.isEqual(sources, player._qualitySelectorPreviousSources)) {
-               player.trigger(events.PLAYER_SOURCES_CHANGED, sources);
+            if (JSON.stringify(sources) != JSON.stringify(player._qualitySelectorPreviousSources)) {
+               player.trigger(CustomEvents.PLAYER_SOURCES_CHANGED, sources);
                player._qualitySelectorPreviousSources = sources;
             }
 
@@ -26,23 +27,23 @@ module.exports = function(videojs) {
             // either the `<source>` tag or the list of sources passed to
             // videojs using `src()`.
 
-            userSelectedSource = _.find(sources, function(source) {
+            userSelectedSource = sources.find(function(source) {
                // Must check for boolean values as well as either the string 'true' or
                // 'selected'. When sources are set programmatically, the value will be a
                // boolean, but those coming from a `<source>` tag will be a string.
                return source.selected === true || source.selected === 'true' || source.selected === 'selected';
-            });
+            })
 
             chosenSource = userSelectedSource || playerSelectedSource;
 
-            player.trigger(events.QUALITY_SELECTED, chosenSource);
+            player.trigger(CustomEvents.QUALITY_SELECTED, chosenSource);
 
             // Pass along the chosen source
-            next(null, chosenSource);
-         },
+            next(undefined, chosenSource);
+         }
+      }
+   })
+  }
+}
 
-      };
-
-   });
-
-};
+export default SourceInterceptor

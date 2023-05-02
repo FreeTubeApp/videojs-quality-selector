@@ -1,31 +1,38 @@
-var _ = require('underscore'),
-    events = require('./events'),
-    qualitySelectorFactory = require('./components/QualitySelector'),
-    sourceInterceptorFactory = require('./middleware/SourceInterceptor'),
-    SafeSeek = require('./util/SafeSeek');
+import SafeSeek from './util/SafeSeek.js';
+import CustomEvents from './events.js'
+import videojs from 'video.js';
+import QualityOption from './components/QualityOption.js';
+import QualitySelector from './components/QualitySelector.js';
+const Plugin = videojs.getPlugin('plugin');
 
-module.exports = function(videojs) {
-   videojs = videojs || window.videojs;
-
-   qualitySelectorFactory(videojs);
-   sourceInterceptorFactory(videojs);
-
-   videojs.hook('setup', function(player) {
+class QualitySelectorPlugin extends Plugin {
+  constructor(player, options) {
+    videojs.registerComponent('QualitySelector', QualitySelector);
+    videojs.registerComponent('QualityOption', QualityOption);
+    const settings = videojs.obj.merge({}, options);
+    super(player, settings)
+    const videojs = player || window.videojs
+    videojs.hook('setup', function(player) {
+      /**
+       * Change the quality of the video.
+       * @param {Event} event The qualitychhange event
+       * @param {object} newSource The newSource
+       */
       function changeQuality(event, newSource) {
-         var sources = player.currentSources(),
-             currentTime = player.currentTime(),
-             currentPlaybackRate = player.playbackRate(),
-             isPaused = player.paused(),
-             selectedSource;
+        let sources = player.currentSources()
+        let currentTime = player.currentTime()
+        let currentPlaybackRate = player.playbackRate()
+        let isPaused = player.paused()
+        let selectedSource;
 
          // Clear out any previously selected sources (see: #11)
-         _.each(sources, function(source) {
+         for (const source of sources) {
             source.selected = false;
-         });
+         }
 
-         selectedSource = _.findWhere(sources, { src: newSource.src });
-         // Note: `_.findWhere` returns a reference to an object. Thus the
-         // following updates the original object in `sources`.
+         selectedSource = sources.find((source) => {
+          return source == newSource.src;
+         })
          selectedSource.selected = true;
 
          if (player._qualitySelectorSafeSeek) {
@@ -58,8 +65,10 @@ module.exports = function(videojs) {
       }
 
       // Add handler to switch sources when the user requests a change
-      player.on(events.QUALITY_REQUESTED, changeQuality);
+      player.on(CustomEvents.QUALITY_REQUESTED, changeQuality);
    });
-};
+  }
+}
 
-module.exports.EVENTS = events;
+export default QualitySelectorPlugin
+export {default as Events} from './events.js'

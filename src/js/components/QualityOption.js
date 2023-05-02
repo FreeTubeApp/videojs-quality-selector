@@ -1,43 +1,41 @@
-var _ = require('underscore'),
-    events = require('../events');
+import CustomEvents from '../events.js';
+import videojs from 'video.js';
+const MenuItem = videojs.getComponent('MenuItem');
 
-module.exports = function(videojs) {
-   var MenuItem = videojs.getComponent('MenuItem');
+/**
+ * A MenuItem to represent a video resolution
+ * @class QualityOption
+ * @augments MenuItem
+ */
+class QualityOption extends MenuItem {
 
-   /**
-    * A MenuItem to represent a video resolution
-    *
-    * @class QualityOption
-    * @extends videojs.MenuItem
-    */
-   return class QualityOption extends MenuItem {
+  /**
+   * @inheritdoc
+   */
+  constructor(player, options) {
+      var source = options.source;
 
-      /**
-       * @inheritdoc
-       */
-      constructor(player, options) {
-         var source = options.source;
-
-         if (!_.isObject(source)) {
-            throw new Error('was not provided a "source" object, but rather: ' + (typeof source));
-         }
-
-         options = _.extend({
-            selectable: true,
-            label: source.label,
-         }, options);
-
-         super(player, options);
-
-         this.source = source;
+      if (!(typeof(source) == 'object' && !!source)) {
+        throw new TypeError('was not provided a "source" object, but rather: ' + (typeof source));
       }
 
-      /**
-       * @inheritdoc
-       */
-      handleClick(event) {
-         super.handleClick(event);
-         this.player().trigger(events.QUALITY_REQUESTED, this.source);
-      }
-   };
-};
+      options = Object.assign({
+        selectable: true,
+        label: source.label
+      }, options);
+
+      super(player, options);
+
+      this.source = source;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  handleClick(event) {
+      super.handleClick(event);
+      this.player().trigger(CustomEvents.QUALITY_REQUESTED, this.source);
+  }
+}
+
+export default QualityOption;

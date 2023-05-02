@@ -75,4 +75,4 @@ class SafeSeek {
    }
 }
 
-module.exports = SafeSeek;
+export default SafeSeek;
