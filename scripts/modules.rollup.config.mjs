@@ -27,7 +27,7 @@ export default {
     json(),
     babel({
       babelHelpers: 'bundled',
-      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
+      extensions: ['.js'],
       babelrc: false,
       exclude: 'node_modules/**',
       presets: [
