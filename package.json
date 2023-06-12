@@ -45,7 +45,7 @@
     "@rollup/plugin-node-resolve": "^15.1.0",
     "add-dist-header": "^1.0.0",
     "clean-jsdoc-theme": "^4.2.7",
-    "concurrently": "^8.1.0",
+    "concurrently": "^8.2.0",
     "eslint": "^8.42.0",
     "eslint-config-videojs": "^6.0.0",
     "eslint-plugin-import": "^2.26.0",
