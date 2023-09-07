@@ -19,7 +19,7 @@
       "verbose": true,
       "template": "node_modules/clean-jsdoc-theme",
       "theme_opts": {
-        "default_theme": "dark",
+        "default_theme": "fallback-dark",
         "includeFilesListInHomepage": true,
         "search": true,
         "homepageTitle": "Videojs Quality Selector Docs",
