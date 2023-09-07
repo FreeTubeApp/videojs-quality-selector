@@ -8,6 +8,20 @@ updates:
       - "PR: waiting for review"
       - "PR: dependencies"
     open-pull-requests-limit: 15
+    groups:
+      babel:
+        patterns:
+          - "@babel/*"
+          - "babel-*"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+      rollup:
+        patterns:
+          - "rollup"
+          - "@rollup/*"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
