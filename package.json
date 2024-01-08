@@ -43,7 +43,7 @@
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.2.1",
-    "add-dist-header": "^1.3.2",
+    "add-dist-header": "^1.3.4",
     "clean-jsdoc-theme": "^4.2.10",
     "concurrently": "^8.2.2",
     "eslint": "^8.49.0",
